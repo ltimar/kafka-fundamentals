@@ -1,0 +1,56 @@
+1. Create topic
+
+docker exec -ti kafka /usr/bin/kafka-topics --create  --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --replication-factor 2 --partitions 4 --topic events2
+docker exec -ti kafka /usr/bin/kafka-topics --create  --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --replication-factor 3 --partitions 3 --topic events1
+
+2. Send data
+
+docker exec -ti kafka /usr/bin/kafka-console-producer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events2  --property parse.key=true --property key.separator=","
+
+
+k1,v1
+k2,v2
+k3,v3
+k4,v4
+k5,v5
+
+k1,v1_1
+k1,v1_2
+k1,v1_3
+
+
+3. Read the data 
+
+docker exec -ti kafka /usr/bin/kafka-console-consumer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events2 --property print.key=true --property key.separator=","
+
+No data will be shown because we do not have --from-beginning property
+
+4. Run consumer and print the partition
+
+docker exec -ti kafka /usr/bin/kafka-console-consumer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events2 --property print.key=true --property key.separator="," --property print.partition=true --from-beginning 
+
+Check that messages with the same key go to the same partition. Notice, that messages may come in a different order, when they are in different partitions.
+
+4. Run with specifying consumer group and printing the partition and the offset
+docker exec -ti kafka /usr/bin/kafka-console-consumer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events2 --property print.key=true --property key.separator="," --property print.partition=true --property print.offset=true  --from-beginning 
+
+Check that messages with the same key go to the same partition. Notice, that messages may come in a different order, when they are in different partitions.
+
+5. Creating a group of consumers 
+docker exec -ti kafka /usr/bin/kafka-console-consumer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events2 --from-beginning --group cons_1
+docker exec -ti kafka /usr/bin/kafka-console-consumer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events2 --group cons_1
+
+docker exec -ti kafka /usr/bin/kafka-console-consumer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events2 --property print.key=true --property key.separator="," --property print.partition=true --from-beginning --group cons_1
+docker exec -ti kafka /usr/bin/kafka-console-consumer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events2 --property print.key=true --property key.separator="," --property print.partition=true --group cons_1
+
+Now we have two consumers within one group.
+
+6. Send more data with our producer
+
+k6,v6
+k7,v7
+k8,v8
+k9,v9
+k10,v10
+
+Check that messages come to different consumers

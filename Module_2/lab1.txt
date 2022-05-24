@@ -1,0 +1,25 @@
+1. Create topic
+
+docker exec -ti kafka /usr/bin/kafka-topics --create  --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --replication-factor 3 --partitions 3 --topic events1
+docker exec -ti kafka /usr/bin/kafka-topics --create  --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --replication-factor 2 --partitions 4 --topic events2
+
+2. List all topics 
+
+docker exec -ti kafka /usr/bin/kafka-topics --list  --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094
+
+3. Describe topic 
+
+docker exec -ti kafka /usr/bin/kafka-topics --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --describe --topic events1
+
+
+3. Send data
+
+docker exec -ti kafka /usr/bin/kafka-console-producer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events1
+
+
+4. Read the data 
+
+docker exec -ti kafka /usr/bin/kafka-console-consumer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events1 --from-beginning
+
+docker exec -ti kafka /usr/bin/kafka-console-consumer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events1 
+
