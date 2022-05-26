@@ -32,12 +32,14 @@ public class TransactionalProducer {
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 		props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "my.id");
+		props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+
 
 		try (Producer<String, String> producer = new KafkaProducer<>(props)) {
 			producer.initTransactions();
 			producer.beginTransaction();
-			final ProducerRecord<String, String> data1 = new ProducerRecord<>(TOPIC1, "maaa1");
-			final ProducerRecord<String, String> data2 = new ProducerRecord<>(TOPIC2, "maaa2");
+			final ProducerRecord<String, String> data1 = new ProducerRecord<>(TOPIC1, "ma1");
+			final ProducerRecord<String, String> data2 = new ProducerRecord<>(TOPIC2, "ma2");
 			try {
 				RecordMetadata meta1 = producer.send(data1).get();
 				LOG.info("-------------------partition = {}, key = {}, value = {} => partition = {}, offset= {}", data1.topic(), data1.key(), data1.value(), meta1.partition(), meta1.offset());
