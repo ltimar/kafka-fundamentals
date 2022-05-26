@@ -12,12 +12,12 @@ docker exec -ti kafka /usr/bin/kafka-topics --list  --bootstrap-server kafka:190
 docker exec -ti kafka /usr/bin/kafka-topics --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --describe --topic events1
 
 
-3. Send data
+4. Send data
 
 docker exec -ti kafka /usr/bin/kafka-console-producer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events1
 
 
-4. Read the data 
+5. Read the data 
 
 docker exec -ti kafka /usr/bin/kafka-console-consumer --bootstrap-server kafka:19092,kafka2:19093,kafka3:19094 --topic events1 --from-beginning
 
