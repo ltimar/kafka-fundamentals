@@ -54,3 +54,7 @@ k9,v9
 k10,v10
 
 Check that messages come to different consumers
+
+6. Delete topic
+
+docker exec -ti kafka /usr/bin/kafka-topics --bootstrap-server localhost:9092,kafka2:19093,kafka3:19094 --topic events1 --delete
