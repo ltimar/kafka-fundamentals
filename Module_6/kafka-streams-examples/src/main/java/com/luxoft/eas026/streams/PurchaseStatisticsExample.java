@@ -3,6 +3,7 @@ package com.luxoft.eas026.streams;
 import java.util.Collections;
 import java.util.Properties;
 
+import com.luxoft.eas026.streams.models.Purchase;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -44,6 +45,11 @@ public class PurchaseStatisticsExample {
 		purchases.groupBy((key, value) -> value.getProduct().toString(),
 				Grouped.with(Serdes.String(), specificAvroSerde)).count().mapValues(v->v.toString()).toStream()
 				.to("PurchaseStatistics", Produced.with(Serdes.String(), Serdes.String()));
+
+//		KStream<String, String> customerStatisticsStream = purchases.groupBy((key, value) -> String.valueOf(value.getCustomerId()),
+//				Grouped.with(Serdes.String(), specificAvroSerde)).count().mapValues(v -> v.toString()).toStream();
+//
+//		customerStatisticsStream.to("CustomerStatistics", Produced.with(Serdes.String(), Serdes.String()));
 
 		final KafkaStreams streams = new KafkaStreams(builder.build(), streamsConfiguration);
 		streams.cleanUp();

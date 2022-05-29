@@ -4,7 +4,7 @@ import org.apache.kafka.streams.processor.api.Processor;
 import org.apache.kafka.streams.processor.api.ProcessorContext;
 import org.apache.kafka.streams.processor.api.Record;
 
-public class UpperCaseProcessor implements Processor<String, String, String, String> {
+public class UpperCaseProcessor444 implements Processor<String, String, String, String> {
 
 	private ProcessorContext<String,String> context;
 

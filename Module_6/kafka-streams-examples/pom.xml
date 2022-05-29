@@ -85,10 +85,10 @@
 							<goal>schema</goal>
 						</goals>
 						<configuration>
-							<sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
-							<outputDirectory>${project.build.directory}/generated/avro</outputDirectory>
+							<sourceDirectory>src/main/java/avro</sourceDirectory>
+							<outputDirectory>src/main/java/</outputDirectory>
 							<imports>
-								<import>${project.basedir}/src/main/resources/avro/Purchase.avsc</import>
+								<import>${project.basedir}/src/main/java/avro/Purchase.avsc</import>
 							</imports>
 						</configuration>
 					</execution>

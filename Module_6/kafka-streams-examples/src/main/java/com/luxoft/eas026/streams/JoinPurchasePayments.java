@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 
+import com.luxoft.eas026.streams.models.PayedPurchase;
+import com.luxoft.eas026.streams.models.Payment;
+import com.luxoft.eas026.streams.models.Purchase;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -31,7 +34,7 @@ public class JoinPurchasePayments {
 
 		streamsConfiguration.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 		streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SpecificAvroSerde.class);
-		streamsConfiguration.put(StreamsConfig.STATE_DIR_CONFIG, "/tmp/streams/");
+		streamsConfiguration.put(StreamsConfig.STATE_DIR_CONFIG, "/tmp/streams/");  // ????
 		streamsConfiguration.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, SCHEMA_REGISTRY_URL);
 
 		final StreamsBuilder builder = new StreamsBuilder();
@@ -53,12 +56,13 @@ public class JoinPurchasePayments {
 				(purchase, payment) -> PayedPurchase
 						.newBuilder().setPaymentId(payment.getId()).setPurchaseId(payment.getPurchaseId())
 						.setProduct(purchase.getProduct()).build(), /* ValueJoiner */
-				JoinWindows.of(Duration.ofDays(1)), StreamJoined.with(Serdes.String(), /* key */
+				JoinWindows.of(Duration.ofDays(1)),
+				StreamJoined.with(Serdes.String(), /* key */
 						purchaseAvroSerde, /* left value */
 						paymentAvroSerde) /* right value */
 		);
 
-		joined.to("PayedPurchases");
+		joined.to("PayedPurchases");  // write to
 
 		final KafkaStreams streams = new KafkaStreams(builder.build(), streamsConfiguration);
 		streams.cleanUp();

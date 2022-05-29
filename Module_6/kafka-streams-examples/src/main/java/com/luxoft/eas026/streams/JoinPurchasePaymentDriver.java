@@ -3,6 +3,7 @@ package com.luxoft.eas026.streams;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.luxoft.eas026.streams.models.Payment;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -24,7 +25,7 @@ public class JoinPurchasePaymentDriver {
 
 		try (final KafkaProducer<String, Payment> producer = new KafkaProducer<>(props)) {
 			int id = 0;
-			for (int j = 0; j < 10; j += 2) {
+			for (int j = 0; j < 10; j += 2) { // does some payments, some buys
 				Payment payment = Payment.newBuilder().setId(j + 100).setPurchaseId(j).build();
 				producer.send(new ProducerRecord<>("Payments", String.valueOf(id), payment));
 			}
