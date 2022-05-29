@@ -1,0 +1,17 @@
+1. https://www.confluent.io/hub/confluentinc/kafka-connect-jdbc
+Download instalation  --> Download
+in folder-ul Module7
+
+2. cd Module_7 folder
+
+3. docker-compose up
+
+4. Parcurgere lab1_postgres_source.txt
+
+
+5. Proiectul in Java
+https://github.com/riferrei/kafka-source-connector
+
+git clone https://github.com/riferrei/kafka-source-connector.git
+
+in folder-ul Module7
