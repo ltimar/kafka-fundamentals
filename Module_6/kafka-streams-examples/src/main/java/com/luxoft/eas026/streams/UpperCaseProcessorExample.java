@@ -33,7 +33,7 @@ public class UpperCaseProcessorExample {
 
 			@Override
 			public Processor<String, String, String, String> get() {
-				return new UpperCaseProcessor444();
+				return new UpperCaseProcessor();
 			}
 		}, "source-node");
 
