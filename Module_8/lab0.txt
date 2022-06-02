@@ -1,0 +1,7 @@
+docker exec -it <f0d415019088/sau nume_zoo> /bin/bash
+
+cd bin
+
+./zkCli.sh
+
+-- comenzile de Zookeeper
